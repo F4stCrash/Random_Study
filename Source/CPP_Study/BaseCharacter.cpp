@@ -14,7 +14,7 @@
 ABaseCharacter::ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	// Set size for collision capsule (Not in use)
 	// GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -47,7 +47,13 @@ ABaseCharacter::ABaseCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Set Sprint Value
-	SprintSpeedMultiplier = 1.5f;
+	// SprintSpeed = 800.0f;
+	// BaseSpeed = 400.0f;
+
+	//Set Status Value
+	// MaxHealth = 100.0f;
+	// CurrentHealth = 100.0f;
+	// Damage = 10.0f;
 }
 
 // Called when the game starts or when spawned
@@ -78,6 +84,11 @@ void ABaseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	// Set up Sprint
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ABaseCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ABaseCharacter::StopSprint);
+	// Set up Skill
+	PlayerInputComponent->BindAction("Skill1", IE_Pressed, this, &ABaseCharacter::Skill1);
+	PlayerInputComponent->BindAction("Skill2", IE_Pressed, this, &ABaseCharacter::Skill2);
+	PlayerInputComponent->BindAction("Skill3", IE_Pressed, this, &ABaseCharacter::Skill3);
+	PlayerInputComponent->BindAction("Skill4", IE_Pressed, this, &ABaseCharacter::Skill4);
 
 }
 
@@ -98,12 +109,36 @@ void ABaseCharacter::MoveRight(float Value)
 void ABaseCharacter::Sprint()
 {
 	// Start Sprint
-	GetCharacterMovement()->MaxWalkSpeed *= SprintSpeedMultiplier;
+	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 
 }
 
 void ABaseCharacter::StopSprint()
 {
 	// Stop Sprint
-	GetCharacterMovement()->MaxWalkSpeed /= SprintSpeedMultiplier;
+	GetCharacterMovement()->MaxWalkSpeed = BaseSpeed;
+}
+
+// Skill Functions
+
+
+
+void ABaseCharacter::Skill1_Implementation()
+{
+	// Override on BP
+}
+
+void ABaseCharacter::Skill2_Implementation()
+{
+	// Override on BP
+}
+
+void ABaseCharacter::Skill3_Implementation()
+{
+	// Override on BP
+}
+
+void ABaseCharacter::Skill4_Implementation()
+{
+	// Override on BP
 }
