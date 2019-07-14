@@ -30,37 +30,43 @@ public:
 		float BaseLookUpRate;
 
 	/** Base Sprint Speed*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 		float SprintSpeed = 800.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 		float BaseSpeed = 400.0f;
 
 	/** Base Variables to Status*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status)
 		float MaxHealth = 100.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Status)
 		float CurrentHealth = 100.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Status)
 		float Damage = 10.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Status)
+		bool EnableMovement = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Status)
+		float AttackSpeed = 1.0f;
 
 	/** Base Variables to combat*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat)
 		bool IsAttacking = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat)
 		float Skill1Cooldown = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat)
 		float Skill2Cooldown = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat)
 		float Skill3Cooldown = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat)
 		float Skill4Cooldown = 0;
 
 
@@ -77,6 +83,16 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = "Skills")
 		void Skill4();
 
+	UFUNCTION(BlueprintNativeEvent, Category = "Combat")
+		void BaseAttack();
+
+
+	UFUNCTION(BlueprintCallable, Category = Status)
+		void SlowCharacter(float SpeedDivide);
+
+	UFUNCTION(BlueprintCallable, Category = Status)
+	    void SpeedCharacter(float SpeedDivide);
+
 	// Sprint Actions
 
 	void Sprint();
@@ -85,9 +101,11 @@ public:
 
 
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 
 
@@ -107,5 +125,11 @@ public:
 	// Handles input for moving right and left.
 	UFUNCTION()
 		void MoveRight(float Value);
+
+
+
+private:
+
+
 
 };

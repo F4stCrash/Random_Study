@@ -9,6 +9,12 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Runtime/Engine/Public/TimerManager.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
+
+
+
+
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -60,6 +66,7 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 
@@ -89,21 +96,34 @@ void ABaseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("Skill2", IE_Pressed, this, &ABaseCharacter::Skill2);
 	PlayerInputComponent->BindAction("Skill3", IE_Pressed, this, &ABaseCharacter::Skill3);
 	PlayerInputComponent->BindAction("Skill4", IE_Pressed, this, &ABaseCharacter::Skill4);
-
+	// Set up BaseAttack
+	PlayerInputComponent->BindAction("BaseAttack", IE_Pressed, this, &ABaseCharacter::BaseAttack);
 }
 
 void ABaseCharacter::MoveForward(float Value)
 {
-	// Find out which way is "forward" and record that the player wants to move that way.
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
-	AddMovementInput(Direction, Value);
+	if (EnableMovement == true)
+	{
+		// Find out which way is "forward" and record that the player wants to move that way.
+		FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+	}
+	
+	{
+		// Block Input
+	}
 }
 
 void ABaseCharacter::MoveRight(float Value)
 {
-	// Find out which way is "right" and record that the player wants to move that way.
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
-	AddMovementInput(Direction, Value);
+	if (EnableMovement == true)
+	{
+		// Find out which way is "right" and record that the player wants to move that way.
+		FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
+		AddMovementInput(Direction, Value);
+	}
+
+	
 }
 
 void ABaseCharacter::Sprint()
@@ -141,4 +161,20 @@ void ABaseCharacter::Skill3_Implementation()
 void ABaseCharacter::Skill4_Implementation()
 {
 	// Override on BP
+}
+
+void ABaseCharacter::BaseAttack_Implementation()
+{
+	// Override on BP
+}
+
+void ABaseCharacter::SlowCharacter(float SpeedDivide)
+{
+	BaseSpeed = BaseSpeed / SpeedDivide;
+}
+
+
+void ABaseCharacter::SpeedCharacter(float SpeedDivide)
+{
+	BaseSpeed = BaseSpeed * SpeedDivide;
 }
